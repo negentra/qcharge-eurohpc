@@ -16,7 +16,7 @@ The current validated reference instance contains **3 EV drivers × 3 private ch
 - fixed-parameter QAOA circuit generation;
 - Qiskit-compatible RZ/RZZ cost-unitary implementation;
 - result decoding and benchmark metrics;
-- a Piast-Q-oriented execution workflow using the PCSS QLauncher/AQT backend path.
+- a guarded Piast-Q-oriented execution workflow using the PCSS QLauncher/AQT backend path.
 
 ## Validated reference result
 
@@ -46,7 +46,10 @@ This work does **not** claim quantum advantage or quantum speed-up at the curren
 .
 ├── README.md
 ├── LICENSE
+├── .gitignore
+├── .env.example
 ├── requirements.txt
+├── run_fixed_benchmark.py
 ├── config/
 │   ├── instance_3x3.json
 │   └── optimized_angles.json
@@ -55,13 +58,40 @@ This work does **not** claim quantum advantage or quantum speed-up at the curren
 │   └── qcharge_circuit.py
 ├── poc/
 │   └── qcharge_poc_v2.py
-├── hardware/
-│   └── run_fixed_benchmark.py
+├── docs/
+│   ├── BENCHMARK_REPORT.md
+│   └── HARDWARE_EXPERIMENT_PLAN.md
 └── results/
     ├── benchmark_summary.csv
     ├── classical_feasible_solutions.csv
     └── cost_matrix.csv
 ```
+
+## Reproduce the ideal PoC
+
+Install dependencies:
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+Run the reference statevector PoC:
+
+```bash
+python poc/qcharge_poc_v2.py
+```
+
+The stored reference results are available in `results/benchmark_summary.csv` and documented in `docs/BENCHMARK_REPORT.md`.
+
+## Fixed-circuit benchmark workflow
+
+For a local validation run:
+
+```bash
+python run_fixed_benchmark.py --backend local --depths 1 2 3 --shots 2048 --repeats 1
+```
+
+Real-device mode is deliberately safety-locked and requires both an allocation credential in a local `.env` file and the explicit `--confirm-hardware` switch. Credentials must never be committed to this repository.
 
 ## Experimental strategy
 
@@ -75,15 +105,11 @@ The proposed hardware programme is deliberately staged:
 
 Variational parameters are initially optimised classically and then fixed before QPU execution to avoid unnecessary consumption of quantum resources during the first hardware-validation stage.
 
+See `docs/HARDWARE_EXPERIMENT_PLAN.md` for the proposed experiment matrix.
+
 ## Software environment
 
 The reference implementation is Python-based and uses NumPy, SciPy, pandas, Qiskit-compatible circuits and PCSS QLauncher for the Piast-Q/AQT execution path.
-
-Install the declared dependencies with:
-
-```bash
-python -m pip install -r requirements.txt
-```
 
 ## Data and confidentiality
 
