@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+.venv/
+venv/
+
+# Credentials / local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Generated hardware results
+results/piast-q_*/
+results/local_*/
+exported_circuits/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
