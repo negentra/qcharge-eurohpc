@@ -1,0 +1,16 @@
+{
+  "name": "qcharge_3x3_v2",
+  "drivers": ["D1", "D2", "D3"],
+  "slots": ["S1", "S2", "S3"],
+  "cost_matrix": [
+    [1.25, 1.1, 2.4],
+    [1.05, 2.0, 1.35],
+    [1.7, 1.2, 1.1]
+  ],
+  "penalty_lambda": 2.5,
+  "variable_order": "q(d,s) = d * n_slots + s; q0 is D1-S1",
+  "constraints": [
+    "exactly one charging slot per driver",
+    "at most one driver per charging slot"
+  ]
+}
